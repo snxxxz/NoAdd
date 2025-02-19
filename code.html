@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoAdd</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS Variables (Theme Customization) --- */
+        :root {
+          --primary-color: #4A90E2; /* Calming Blue */
+          --secondary-color: #434A54; /* Dark Slate Gray */
+          --accent-color: #F5A623;   /* Warm Gold */
+
+          /* Light Theme */
+          --bg-color-light: #F7FAFC; /* Very Light Bluish White */
+          --text-color-light: #333333; /* Dark Gray */
+          --input-bg-light: white;
+          --input-border-light: #D1D5DB; /* Light Gray */
+          --input-focus-light: var(--primary-color);
+          --button-bg-light: var(--primary-color);
+          --button-hover-light: #357ABD; /* Darker Blue */
+          --box-shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer Shadow */
+          --box-shadow-hover-light: 0 4px 12px rgba(0, 0, 0, 0.15);
+          --heading-color-light: var(--secondary-color);
+          --theme-toggle-bg-light: var(--secondary-color);
+
+          /* Dark Theme */
+          --bg-color-dark: #1A202C; /* Dark Slate Gray */
+          --text-color-dark: #EDF2F7; /* Very Light Gray */
+          --input-bg-dark: #2D3748; /* Darker Gray */
+          --input-border-dark: #4A5568; /* Medium Gray */
+          --input-focus-dark: var(--accent-color);
+          --button-bg-dark: var(--accent-color);
+          --button-hover-dark: #D49420;  /* Darker Gold */
+          --box-shadow-dark: 0 2px 8px rgba(255, 255, 255, 0.05); /* Very Subtle Shadow */
+          --box-shadow-hover-dark: 0 4px 12px rgba(255, 255, 255, 0.1);
+          --heading-color-dark: var(--accent-color);
+          --theme-toggle-bg-dark: var(--bg-color-dark);
+
+
+          /* Common */
+          --border-radius: 8px; /* Slightly smaller radius */
+          --button-text-color: white;
+          --transition-speed: 0.3s;
+        }
+
+        /* --- Theme Application --- */
+        body {
+            background-color: var(--bg-color-light);
+            color: var(--text-color-light);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            -webkit-font-smoothing: antialiased; /* Improve font rendering */
+            -moz-osx-font-smoothing: grayscale;  /* Improve font rendering */
+        }
+        body.dark-theme {
+            background-color: var(--bg-color-dark);
+            color: var(--text-color-dark);
+        }
+
+        /* --- Base Styles --- */
+        body {
+            font-family: 'Rubik', sans-serif; /* Changed to Rubik */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            animation: slideInFromLeft 1s ease-out; /* Different Animation */
+            color: var(--heading-color-light);
+            transition: color var(--transition-speed) ease;
+            margin-bottom: 1rem;
+        }
+        .dark-theme h1{
+            color: var(--heading-color-dark);
+        }
+
+
+        .container {
+            width: 90%;
+            max-width: 750px; /* Slightly smaller max-width */
+            margin: 30px auto; /* Reduced margin */
+            padding: 25px;  /* Reduced padding */
+            background-color: var(--input-bg-light);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-light);
+            transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            animation: fadeIn 1s ease-out; /* Simple fade-in */
+        }
+
+        .dark-theme .container {
+            background-color: var(--input-bg-dark);
+            box-shadow: var(--box-shadow-dark);
+        }
+        .input-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px; /* Reduced gap */
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        label {
+            display: none; /* Hidden visually, still accessible */
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 220px; /* Slightly smaller min-width */
+            padding: 10px 14px; /* Reduced padding */
+            border: 1px solid var(--input-border-light); /* Thinner border */
+            border-radius: var(--border-radius);
+            font-size: 15px; /* Slightly smaller font-size */
+            background-color: var(--input-bg-light);
+            color: var(--text-color-light);
+            transition: border-color 0.2s ease, background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+        }
+
+        .dark-theme input[type="text"] {
+            border-color: var(--input-border-dark);
+            background-color: var(--input-bg-dark);
+            color: var(--text-color-dark);
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--input-focus-light);
+            outline: none;
+        }
+
+        .dark-theme input[type="text"]:focus{
+            border-color: var(--input-focus-dark);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px; /* Reduced gap */
+        }
+        #loadVideoButton, #themeToggle{
+            padding: 10px 18px; /* Reduced padding */
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 15px; /* Slightly smaller font-size */
+            font-weight: 500;
+            color: var(--button-text-color);
+            transition: all 0.2s ease;  /* Faster transition */
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* Smaller shadow */
+        }
+        #loadVideoButton {
+            background-color: var(--button-bg-light);
+        }
+        .dark-theme #loadVideoButton{
+            background-color: var(--button-bg-dark);
+        }
+
+
+        #loadVideoButton:hover {
+            background-color: var(--button-hover-light);
+            transform: scale(1.05); /* Scale up slightly on hover */
+            box-shadow: var(--box-shadow-hover-light);
+        }
+        .dark-theme #loadVideoButton:hover {
+             background-color: var(--button-hover-dark);
+             box-shadow: var(--box-shadow-hover-dark);
+        }
+
+        /* --- Theme Toggle Button (Moon/Sun) --- */
+         #themeToggle {
+            background-color: var(--theme-toggle-bg-light);
+            width: 36px; /* Smaller button */
+            height: 36px; /* Smaller button */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+             transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+        }
+        .dark-theme #themeToggle{
+           background-color: var(--theme-toggle-bg-dark);
+        }
+
+        #themeToggle:hover {
+            transform: scale(1.1); /* Slightly larger on hover */
+            box-shadow: var(--box-shadow-hover-light);
+        }
+         .dark-theme #themeToggle:hover{
+            box-shadow: var(--box-shadow-hover-dark);
+        }
+
+        #themeToggle::before {
+            content: '🌙';
+            font-size: 18px; /* Smaller icon */
+             transition: content var(--transition-speed) ease, opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+        }
+
+        .dark-theme #themeToggle::before {
+            content: '☀️';
+            font-size: 22px; /* Smaller icon */
+            transform: rotate(180deg);
+        }
+        .player-container {
+            width: 100%;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            margin-top: 20px; /* Reduced margin */
+            box-shadow: var(--box-shadow-light);
+            animation: fadeIn 1s ease-out; /* Simple fade-in for player */
+            transition: box-shadow var(--transition-speed) ease;
+        }
+        .dark-theme .player-container {
+            box-shadow: var(--box-shadow-dark);
+        }
+
+
+        #player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+         /* --- Media Queries (Responsiveness) --- */
+          @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+              .input-area {
+                 justify-content: center; /* Center on smaller screens */
+              }
+              .player-container {
+                margin-top: 20px; /* Reduce margin on smaller screens */
+                border-radius: 0px;
+                box-shadow: none;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+             .button-group {
+                width: 100%; /* Full width buttons on small screens */
+                flex-direction: column; /* Stack buttons vertically */
+            }
+            #loadVideoButton, #themeToggle {
+                font-size: 14px;
+                width: 100%; /* Full width */
+            }
+            input[type="text"]{
+               width: 90%;
+            }
+        }
+
+         /* --- Keyframes for Animations --- */
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>NoAdd</h1>
+    <div class="container">
+        <div class="input-area">
+            <label for="videoUrl">Enter YouTube Video URL:</label> <!-- Keep for accessibility -->
+            <input type="text" id="videoUrl" placeholder="Paste your YouTube link here...">
+            <div class="button-group">
+                <button id="loadVideoButton" onclick="loadVideo()">Load Video</button>
+                <button id="themeToggle"></button>
+            </div>
+        </div>
+
+        <div class="player-container">
+            <div id="player"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- YouTube API and Video Loading ---
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360',
+                width: '640',
+                videoId: '',
+                playerVars: { 'playsinline': 1, 'modestbranding': 1, 'rel': 0, 'controls': 1, 'autoplay': 1 },
+                events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange }
+            });
+        }
+
+        function onPlayerReady(event) {
+          //  event.target.playVideo(); // Autoplay is already handled in playerVars.
+        }
+
+        function onPlayerStateChange(event) {
+           //  Custom logic here
+        }
+
+        function loadVideo() {
+            const videoUrl = document.getElementById('videoUrl').value;
+            const videoId = extractVideoId(videoUrl);
+
+            if (videoId) {
+                if (player && typeof player.loadVideoById === 'function') {
+                    player.loadVideoById(videoId);
+                } else {
+                    console.error("YouTube Player is not yet initialized.");
+                    alert("Please wait for the page to fully load before entering a URL.");
+                }
+            } else {
+                alert('Invalid YouTube URL. Please enter a valid URL.');
+            }
+        }
+
+        function extractVideoId(url) {
+            const regExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mb)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const match = url.match(regExp);
+            return match ? match[1] : null;
+        }
+
+        // --- Theme Toggle (Moon/Sun) ---
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            // Store preference
+            const isDarkMode = document.body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.classList.add(savedTheme + '-theme');
+        }
+
+    </script>
+</body>
+</html>
